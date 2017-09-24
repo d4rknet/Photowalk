@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,13 +25,12 @@ public class UserController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public void addUser(@RequestBody UserDto userDto){
+	public ResponseEntity addUser(@RequestBody UserDto userDto){
 		User user = new User();
 		user.setFirstname(userDto.getFirstname());
 		user.setUsername(userDto.getUsername());
-		User save = userRepository.save(user);
-
-		System.out.println(save);
+		userRepository.save(user);
+		return ResponseEntity.created(URI.create("/api/user/"+userDto.getUsername())).build();
 	}
 
 
