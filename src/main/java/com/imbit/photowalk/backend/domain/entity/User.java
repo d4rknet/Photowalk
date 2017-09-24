@@ -18,6 +18,8 @@ public class User {
 	@Column(nullable = false)
 	private String firstname;
 
+	private String password;
+
 	@ManyToOne
 	private Role role;
 
