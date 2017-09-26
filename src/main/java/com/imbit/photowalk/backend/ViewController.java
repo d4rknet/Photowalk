@@ -52,7 +52,7 @@ public class ViewController {
 	public String login(@ModelAttribute("credentials") CredentialDto credential, Model model) {
 		Optional<User> user = userRepository.findUserByUsername(credential.getUsername());
 		if (!user.isPresent() || !Objects.equals(user.get().getPassword(), credential.getPassword())) {
-			throw new RuntimeException("password or username dopes not match");
+			throw new RuntimeException("password or username does not match");
 		}
 		model.addAttribute("user", user.get());
 		return "loggedIn";
