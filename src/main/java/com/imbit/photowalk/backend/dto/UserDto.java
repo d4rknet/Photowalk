@@ -16,4 +16,5 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 public class UserDto {
 	private String username;
 	private String firstname;
+	private String password;
 }

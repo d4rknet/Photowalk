@@ -1,8 +1,8 @@
 package com.imbit.photowalk.backend;
 
 import com.imbit.photowalk.backend.domain.entity.User;
+import com.imbit.photowalk.backend.domain.repo.PhotowalkRepository;
 import com.imbit.photowalk.backend.domain.repo.UserRepository;
-import com.imbit.photowalk.backend.dto.CredentialDto;
 import com.imbit.photowalk.backend.dto.RegisterDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,19 +10,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Objects;
 import java.util.Optional;
+
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
 public class ViewController {
 
 	private final UserRepository userRepository;
+	private final PhotowalkRepository photowalkRepository;
 
 
 	@Autowired
-	public ViewController(UserRepository userRepository) {
+	public ViewController(UserRepository userRepository, PhotowalkRepository photowalkRepository) {
 		this.userRepository = userRepository;
+		this.photowalkRepository = photowalkRepository;
 	}
 
 	@RequestMapping("/register")
@@ -44,18 +49,25 @@ public class ViewController {
 
 	@RequestMapping("/login")
 	public String login(Model model) {
-		model.addAttribute("credentials", new CredentialDto());
 		return "login";
 	}
 
-	@PostMapping("/login")
-	public String login(@ModelAttribute("credentials") CredentialDto credential, Model model) {
-		Optional<User> user = userRepository.findUserByUsername(credential.getUsername());
-		if (!user.isPresent() || !Objects.equals(user.get().getPassword(), credential.getPassword())) {
+	@RequestMapping(value = "/login", method = POST)
+	public String login(@RequestParam String username,@RequestParam String password, Model model) {
+		Optional<User> userOpt = userRepository.findUserByUsername(username);
+		if (!userOpt.isPresent() || !Objects.equals(userOpt.get().getPassword(), password)) {
 			throw new RuntimeException("password or username does not match");
 		}
-		model.addAttribute("user", user.get());
+		model.addAttribute("user", userOpt.get());
 		return "loggedIn";
+	}
+
+	@RequestMapping("/walks")
+	public String showPhotowalks(Model model){
+		model.addAttribute("users",userRepository.findAll());
+		return "photowalks";
+
+
 	}
 
 

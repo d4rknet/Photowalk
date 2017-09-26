@@ -29,6 +29,7 @@ public class UserController {
 		User user = new User();
 		user.setFirstname(userDto.getFirstname());
 		user.setUsername(userDto.getUsername());
+		user.setPassword(userDto.getPassword());
 		userRepository.save(user);
 		return ResponseEntity.created(URI.create("/api/user/"+userDto.getUsername())).build();
 	}

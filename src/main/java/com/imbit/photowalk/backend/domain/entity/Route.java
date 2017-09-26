@@ -12,12 +12,12 @@ public class Route {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer routeID;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private float latidute;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private float longtidue;
 
-    @Column(nullable=false)
-    private integer position;
-
+    @Column(nullable = false)
+    private Integer position;
+}

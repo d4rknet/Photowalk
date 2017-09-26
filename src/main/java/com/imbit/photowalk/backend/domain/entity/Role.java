@@ -1,8 +1,11 @@
 package com.imbit.photowalk.backend.domain.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
+@Data
 public class Role {
 
 	@Id
@@ -12,7 +15,4 @@ public class Role {
 
 	@Column(unique = true,nullable = false)
 	private String name;
-
-
-
 }
