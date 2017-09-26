@@ -18,18 +18,18 @@ public class User {
 	@Column(nullable = false)
 	private String firstname;
 
-	@Column(nullable = false)
+	//@Column(nullable = false)
 	private String lastname;
 
-	@Column(nullable = false)
-	private String emailadress;
+	//@Column(nullable = false)
+	private String emailaddress;
 
 	@Column(nullable = false)
 	private String password;
 
-	@Column(nullable = false)
+/*	@Column(nullable = false)
 	private String salt;
-
+*/
 	@ManyToOne
 	private Role role;
 }

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<title>Create a Walk</title>
+</head>
+<body>
+<form action="#" th:action="@{/createwalk}" th:object="${photowalkDto}" method="post">
+	<label>
+		Name:
+		<input th:field="*{Name}" type="text"/>
+	</label><br />
+	<label>
+		Date:
+		<input th:field="*{date}" type="text"/>
+	</label><br />
+	<label>
+		Start Point:
+		<input th:field="*{startpoint}" type="text"/>
+		</label><br />
+	<label>
+		End Point:
+		<input th:field="*{endpoint}" type="text"/>
+	</label><br />
+	<label>
+		Description:
+		<input th:field="*{description}" type="text"/>
+	</label><br />
+	<button type="create" >Register</button>
+</form>
+</body>
+</html>

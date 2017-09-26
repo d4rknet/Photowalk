@@ -1,9 +1,12 @@
 package com.imbit.photowalk.backend;
 
+import com.imbit.photowalk.backend.domain.entity.Photowalk;
 import com.imbit.photowalk.backend.domain.entity.User;
 import com.imbit.photowalk.backend.domain.repo.PhotowalkRepository;
 import com.imbit.photowalk.backend.domain.repo.UserRepository;
 import com.imbit.photowalk.backend.dto.RegisterDto;
+import com.imbit.photowalk.backend.dto.PWCreateDto;
+import com.imbit.photowalk.backend.dto.PhotowalkDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,12 +43,13 @@ public class ViewController {
 	public String reg(@ModelAttribute RegisterDto dto, Model model) {
 		User user = new User();
 		user.setFirstname(dto.getFirstname());
+		user.setLastname(dto.getLastname());
+		user.setEmailaddress(dto.getEmailaddress());
 		user.setUsername(dto.getUsername());
 		user.setPassword(dto.getPassword());
 		userRepository.save(user);
 		return "success";
 	}
-
 
 	@RequestMapping("/login")
 	public String login(Model model) {
@@ -64,10 +68,27 @@ public class ViewController {
 
 	@RequestMapping("/walks")
 	public String showPhotowalks(Model model){
-		model.addAttribute("users",userRepository.findAll());
+		model.addAttribute("users",photowalkRepository.findAll());
 		return "photowalks";
+	}
 
+	@RequestMapping("/createwalk")
+	public String phot(Model model) {
+		model.addAttribute("photowalkDto", new PWCreateDto());
+		return "createwalk";
+	}
 
+	@PostMapping("/createwalk")
+	public String phot(@ModelAttribute PhotowalkDto photowalkDto, Model model) {
+		Photowalk photowalk = new Photowalk();
+		photowalk.setName(photowalkDto.getName());
+		photowalk.setDate(photowalkDto.getDate());
+		photowalk.setDescription(photowalkDto.getDescription());
+		photowalk.setStartpoint(photowalkDto.getStartpoint());
+		photowalk.setEndpoint(photowalkDto.getEndpoint());
+		photowalk.setDuration(photowalkDto.getDuration());
+		photowalkRepository.save(photowalk);
+		return "success2";
 	}
 
 

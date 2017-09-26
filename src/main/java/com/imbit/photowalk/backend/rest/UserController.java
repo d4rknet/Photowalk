@@ -28,7 +28,9 @@ public class UserController {
 	public ResponseEntity addUser(@RequestBody UserDto userDto){
 		User user = new User();
 		user.setFirstname(userDto.getFirstname());
+		user.setLastname(userDto.getLastname());
 		user.setUsername(userDto.getUsername());
+		user.setEmailaddress(userDto.getEmailaddress());
 		user.setPassword(userDto.getPassword());
 		userRepository.save(user);
 		return ResponseEntity.created(URI.create("/api/user/"+userDto.getUsername())).build();
@@ -58,6 +60,8 @@ public class UserController {
 		return UserDto.builder()
 				.firstname(user.getFirstname())
 				.username(user.getUsername())
+				.lastname(user.getLastname())
+				.emailaddress(user.getEmailaddress())
 				.build();
 	}
 

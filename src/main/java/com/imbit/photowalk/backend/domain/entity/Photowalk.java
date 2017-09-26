@@ -14,10 +14,10 @@ public class Photowalk {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer photowalkId;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String name;
 
-    @Column(nullable=false)
+    //@Column(nullable=false)
     private Date date;
 
     @Column(nullable = false)
@@ -29,7 +29,7 @@ public class Photowalk {
     @Column(nullable = false)
     private String endpoint;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private Integer duration;
 
     @OneToOne
