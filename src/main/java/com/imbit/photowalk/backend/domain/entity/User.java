@@ -18,6 +18,12 @@ public class User {
 	@Column(nullable = false)
 	private String firstname;
 
+	@Column(nullable = false)
+	private String lastname;
+
+	@Column(nullable = false)
+	private String emailadress;
+
 	private String password;
 
 	@ManyToOne
