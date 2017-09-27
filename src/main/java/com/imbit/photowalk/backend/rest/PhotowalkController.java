@@ -27,7 +27,7 @@ public class PhotowalkController {
     public ResponseEntity addPhotowalk(@RequestBody PhotowalkDto photowalkDto){
         Photowalk photowalk = new Photowalk();
         photowalk.setName(photowalkDto.getName());
-        photowalk.setDate(photowalkDto.getDate());
+      // photowalk.setDate(photowalkDto.getDate());
         photowalk.setDescription(photowalkDto.getDescription());
         photowalk.setStartpoint(photowalkDto.getStartpoint());
         photowalk.setEndpoint(photowalkDto.getEndpoint());
@@ -59,7 +59,7 @@ public class PhotowalkController {
     private PhotowalkDto mapToPhotowalkDto(Photowalk photowalk){
         return PhotowalkDto.builder()
                 .name(photowalk.getName())
-                .date(photowalk.getDate())
+               // .date(photowalk.getDate())
                 .description(photowalk.getDescription())
                 .startpoint(photowalk.getStartpoint())
                 .endpoint(photowalk.getEndpoint())

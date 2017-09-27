@@ -11,7 +11,7 @@ public class PWCreateDto {
 	private Integer photowalkId;
 	private String name;
 	private Integer duration;
-	private Date date;
+	//private Date date;
 	private String description;
 	private String startpoint;
 	private String endpoint;

@@ -18,7 +18,7 @@ public class Photowalk {
     private String name;
 
     //@Column(nullable=false)
-    private Date date;
+  //  private Date date;
 
    // @Column(nullable = false)
     private String description;
