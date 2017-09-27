@@ -8,4 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface PhotowalkRepository extends JpaRepository<Photowalk, Integer> {
+
+    Optional<Photowalk> findPhotowalkByName(String name);
 }

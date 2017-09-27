@@ -8,7 +8,7 @@
 <form action="#" th:action="@{/createwalk}" th:object="${photowalkDto}" method="post">
 	<label>
 		Name:
-		<input th:field="*{Name}" type="text"/>
+		<input th:field="*{name}" type="text"/>
 	</label><br />
 	<label>
 		Date:
@@ -26,7 +26,7 @@
 		Description:
 		<input th:field="*{description}" type="text"/>
 	</label><br />
-	<button type="create" >Register</button>
+	<button type="submit" >Erstellen</button>
 </form>
 </body>
 </html>
