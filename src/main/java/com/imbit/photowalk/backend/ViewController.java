@@ -70,7 +70,7 @@ public class ViewController {
 
 	@RequestMapping("/walks")
 	public String showPhotowalks(Model model){
-		model.addAttribute("users",photowalkRepository.findAll());
+		model.addAttribute("photowalks",photowalkRepository.findAll());
 		return "photowalks";
 	}
 
