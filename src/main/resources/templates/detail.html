@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${walk.name}">Title</title>
+</head>
+<body>
+	<span th:text="${walk.name}">Walk name</span>
+	<li >
+
+		<ul th:each="user : ${walk.participants}" th:text="${user.username}"></ul>
+
+	</li>
+	<br>
+	<a th:href="${walk.photowalkId + '/join'}">Join</a>
+</body>
+</html>

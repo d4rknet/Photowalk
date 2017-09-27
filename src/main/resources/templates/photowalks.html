@@ -5,13 +5,8 @@
 	<title>Photowalks</title>
 </head>
 <body>
-
-	<ul>
-
-		<li th:each="photowalk : ${photowalks}" th:text="${photowalk.name}"></li>
-
-	</ul>
-
-
+	<div th:each="photowalk : ${photowalks}">
+		<a th:href="${'walks/' + photowalk.photowalkId}" th:text="${photowalk.name}">Walk</a>
+	</div>
 </body>
 </html>

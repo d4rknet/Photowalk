@@ -1,21 +1,20 @@
 package com.imbit.photowalk.backend;
 
 import com.imbit.photowalk.backend.domain.entity.Photowalk;
+import com.imbit.photowalk.backend.domain.entity.Role;
 import com.imbit.photowalk.backend.domain.entity.User;
 import com.imbit.photowalk.backend.domain.repo.PhotowalkRepository;
+import com.imbit.photowalk.backend.domain.repo.RoleRepository;
 import com.imbit.photowalk.backend.domain.repo.UserRepository;
-import com.imbit.photowalk.backend.dto.RegisterDto;
 import com.imbit.photowalk.backend.dto.PWCreateDto;
 import com.imbit.photowalk.backend.dto.PhotowalkDto;
+import com.imbit.photowalk.backend.dto.RegisterDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -27,12 +26,16 @@ public class ViewController {
 
 	private final UserRepository userRepository;
 	private final PhotowalkRepository photowalkRepository;
+	private final RoleRepository roleRepository;
 
 
 	@Autowired
-	public ViewController(UserRepository userRepository, PhotowalkRepository photowalkRepository) {
+	public ViewController(UserRepository userRepository,
+						  PhotowalkRepository photowalkRepository,
+						  RoleRepository roleRepository) {
 		this.userRepository = userRepository;
 		this.photowalkRepository = photowalkRepository;
+		this.roleRepository = roleRepository;
 	}
 
 	@RequestMapping("/register")
@@ -50,6 +53,12 @@ public class ViewController {
 		user.setUsername(dto.getUsername());
 		user.setPassword(dto.getPassword());
 		userRepository.save(user);
+
+		Role role = Role.builder()
+				.name("ADMIN")
+				.username(user.getUsername())
+				.build();
+		roleRepository.save(role);
 		return "success";
 	}
 
@@ -90,8 +99,31 @@ public class ViewController {
 		photowalk.setEndpoint(photowalkDto.getEndpoint());
 		photowalk.setDuration(photowalkDto.getDuration());
 		photowalkRepository.save(photowalk);
-		return "success2";
+		return "redirect:/walks";
 	}
 
 
+
+	@RequestMapping("walks/{id}")
+	public String detailWalk(@PathVariable String id, Model model){
+		Optional<Photowalk> photowalkOptional = photowalkRepository.findById(Integer.parseInt(id));
+		model.addAttribute("walk", photowalkOptional.get());
+		return "detail";
+	}
+
+	@RequestMapping("walks/{id}/join")
+	public String joinWalk(@PathVariable String id) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+		Optional<User> userOP = userRepository.findUserByUsername(username);
+		Optional<Photowalk> photowalkOptional = photowalkRepository.findById(Integer.parseInt(id));
+
+
+		//TODO handle no user/walk found
+
+		Photowalk photowalk = photowalkOptional.get();
+		photowalk.getParticipants().add(userOP.get());
+		photowalkRepository.save(photowalk);
+		return "redirect:/walks/"+ id;
+	}
 }

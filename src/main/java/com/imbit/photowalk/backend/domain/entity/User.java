@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import static java.lang.Boolean.TRUE;
+
 @Entity
 @Data
 public class User {
@@ -26,6 +28,10 @@ public class User {
 
 	@Column(nullable = false)
 	private String password;
+
+
+	@Column(nullable = false )
+	private Boolean enabled = TRUE;
 
 /*	@Column(nullable = false)
 	private String salt;
