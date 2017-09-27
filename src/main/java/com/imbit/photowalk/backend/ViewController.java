@@ -62,6 +62,12 @@ public class ViewController {
 		return "success";
 	}
 
+	@RequestMapping("/home")
+		public String home(Model model) {
+			return "home";
+	}
+
+
 	@RequestMapping("/login")
 	public String login(Model model) {
 		return "login";

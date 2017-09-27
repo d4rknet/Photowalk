@@ -5,12 +5,37 @@
 	<title th:text="${walk.name}">Title</title>
 </head>
 <body>
+	<label>
+		Name: &emsp;
 	<span th:text="${walk.name}">Walk name</span>
+	</label>
+	<br>
+
+	<label>
+		Startpoint: &emsp;
+	<span th:text="${walk.startpoint}">Walk startpoint</span>
+	</label>
+
+	<br>
+	<label>
+		Endpoint: &emsp;
+	<span th:text="${walk.endpoint}">Walk endpoint</span>
+	</label>
+
+	<br>
+	<label>
+		Description: &emsp;
+	<span th:text="${walk.description}">Walk description</span>
+	</label>
+
+	<label>
+		Participants:
 	<li >
 
 		<ul th:each="user : ${walk.participants}" th:text="${user.username}"></ul>
-
 	</li>
+	</label>
+
 	<br>
 	<a th:href="${walk.photowalkId + '/join'}">Join</a>
 </body>
