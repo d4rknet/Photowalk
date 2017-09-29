@@ -62,11 +62,11 @@ public class ViewController {
 		return "success";
 	}
 
-	@RequestMapping("/home")
-		public String home(Model model) {
-			return "home";
+	@RequestMapping("/")
+	public String index(Model model, Authentication authentication) {
+		model.addAttribute("username", authentication == null ? null : authentication.getName());
+		return "index";
 	}
-
 
 	@RequestMapping("/login")
 	public String login(Model model) {
@@ -74,7 +74,7 @@ public class ViewController {
 	}
 
 	@RequestMapping(value = "/login", method = POST)
-	public String login(@RequestParam String username,@RequestParam String password, Model model) {
+	public String login(@RequestParam String username, @RequestParam String password, Model model) {
 		Optional<User> userOpt = userRepository.findUserByUsername(username);
 		if (!userOpt.isPresent() || !Objects.equals(userOpt.get().getPassword(), password)) {
 			throw new RuntimeException("password or username does not match");
@@ -84,8 +84,8 @@ public class ViewController {
 	}
 
 	@RequestMapping("/walks")
-	public String showPhotowalks(Model model){
-		model.addAttribute("photowalks",photowalkRepository.findAll());
+	public String showPhotowalks(Model model) {
+		model.addAttribute("photowalks", photowalkRepository.findAll());
 		return "photowalks";
 	}
 
@@ -99,7 +99,7 @@ public class ViewController {
 	public String phot(@ModelAttribute PhotowalkDto photowalkDto, Model model) {
 		Photowalk photowalk = new Photowalk();
 		photowalk.setName(photowalkDto.getName());
-	//	photowalk.setDate(photowalkDto.getDate());
+		//	photowalk.setDate(photowalkDto.getDate());
 		photowalk.setDescription(photowalkDto.getDescription());
 		photowalk.setStartpoint(photowalkDto.getStartpoint());
 		photowalk.setEndpoint(photowalkDto.getEndpoint());
@@ -108,10 +108,8 @@ public class ViewController {
 		return "redirect:/walks";
 	}
 
-
-
 	@RequestMapping("walks/{id}")
-	public String detailWalk(@PathVariable String id, Model model){
+	public String detailWalk(@PathVariable String id, Model model) {
 		Optional<Photowalk> photowalkOptional = photowalkRepository.findById(Integer.parseInt(id));
 		model.addAttribute("walk", photowalkOptional.get());
 		return "detail";
@@ -130,6 +128,6 @@ public class ViewController {
 		Photowalk photowalk = photowalkOptional.get();
 		photowalk.getParticipants().add(userOP.get());
 		photowalkRepository.save(photowalk);
-		return "redirect:/walks/"+ id;
+		return "redirect:/walks/" + id;
 	}
 }

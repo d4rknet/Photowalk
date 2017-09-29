@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<title>Photowalk</title>
+</head>
+<body>
+<div th:if="${username} == null">
+	<a href="/login">Login</a>
+	<a href="/register">Not a member?</a>
+
+</div>
+<div th:if="${username} != null" >
+	<h1 th:text="'Hello ' + ${username}"></h1>
+
+	<a href="/walks">Go to the Walks overview</a>
+	<a href="/createwalk">Create a walk</a>
+	<a href="/api/user">See Users</a>
+	<br>
+	<a href="/logout">logout</a>
+
+</div>
+</body>
+</html>
