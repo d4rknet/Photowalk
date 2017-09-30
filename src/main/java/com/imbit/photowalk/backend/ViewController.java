@@ -126,7 +126,7 @@ public class ViewController {
 		//TODO handle no user/walk found
 
 		Photowalk photowalk = photowalkOptional.get();
-		photowalk.getParticipants().add(userOP.get());
+		photowalk.getApplicants().add(userOP.get());
 		photowalkRepository.save(photowalk);
 		return "redirect:/walks/" + id;
 	}

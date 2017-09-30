@@ -1,4 +1,4 @@
-package com.imbit.photowalk.backend;
+package com.imbit.photowalk.backend.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -22,6 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				.antMatchers("/register").permitAll()
 				.antMatchers("/").permitAll()
+				.antMatchers("/swagger-ui.html", "/webjars/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
 				.csrf().disable()

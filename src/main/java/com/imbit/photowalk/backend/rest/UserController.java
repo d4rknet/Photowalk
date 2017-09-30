@@ -14,9 +14,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 public class UserController {
 
 	private final UserRepository userRepository;
@@ -38,16 +39,14 @@ public class UserController {
 		return ResponseEntity.created(URI.create("/api/user/"+userDto.getUsername())).build();
 	}
 
-
-
-	@RequestMapping
+	@RequestMapping(method = GET)
 	public List<UserDto> getUsers(){
 		return userRepository.findAll().stream().map(user -> UserDto.builder().username(user.getUsername()).build())
 				.collect(toList());
 	}
 
 	@JsonView(UserDetailed.class)
-	@RequestMapping(path = "/{username}")
+	@RequestMapping(path = "/{username}", method = GET)
 	public ResponseEntity<User> getUser(@PathVariable String username){
 		Optional<User> user = userRepository.findUserByUsername(username);
 		if (!user.isPresent()){
