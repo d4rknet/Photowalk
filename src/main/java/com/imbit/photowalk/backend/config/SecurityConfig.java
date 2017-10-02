@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/register").permitAll()
 				.antMatchers("/").permitAll()
 				.antMatchers("/swagger-ui.html", "/webjars/**").permitAll()
-				.anyRequest().authenticated()
+				.anyRequest().permitAll()
 				.and()
 				.csrf().disable()
 				.formLogin();
