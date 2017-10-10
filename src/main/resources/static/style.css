@@ -1,6 +1,6 @@
 /*-----------------------Generelle Einstellung---------------------------------------*/
 html {
-    background-image: url("../../templates/model.jpg");
+    background-image: url("/model.jpg");
     background-size: cover;
     background-color:#585858;
 }
