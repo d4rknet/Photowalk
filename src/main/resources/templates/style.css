@@ -1,0 +1,98 @@
+/*-----------------------Generelle Einstellung---------------------------------------*/
+html {
+    background-image: url("model.jpg");
+    background-size: cover;
+    background-color:#585858;
+}
+body {
+    box-shadow: 0 0 50px rgba(0, 0, 0, 1);
+    color: #000000;
+    font-family: "Century Gothic";
+    font-size: 24px;
+    font-weight:bold;
+    line-height: 1.5;
+    margin: 0 auto;
+    max-width: 800px;
+    padding-left:20px;
+    padding-right:20px;
+    padding-bottom:20px;
+}
+
+h1 {
+    font-size: 72px;
+    font-family: "Onyx";
+    text-decoration:none;
+    /*text-shadow: 2px 2px #8d273d; */
+}
+/*-------------------------------------Einstellungen für Links-------------------------*/
+/* unvisited link */
+a:link {
+    color: #1C1C1C;
+    font-family: "Century Gothic";
+    text-decoration:none;
+}
+
+/* visited link */
+a:visited {
+    color:#1C1C1C;
+    font-family: "Century Gothic";
+    text-decoration:none;
+}
+
+/* mouse over link */
+a:hover {
+    color: #000000;
+    font-family: "Century Gothic";
+    text-decoration:none;
+    background-color:#8d273d;
+}
+
+/* selected link */
+a:active {
+    color: #086A87;
+    font-family: "Century Gothic";
+    text-decoration:none;
+}
+
+#join {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+    padding-left:10px;
+    padding-right:10px;
+    padding-bottom:5px;
+    background-color:#27c3bc;
+}
+#home {
+   float:right;
+
+}
+/*---------------- Alle Einstellungen für Design des Navibereichs-------------------------*/
+#navibereich li, #navibereich2 li {
+    list-style-type:none;
+    display:inline;
+}
+
+#navibereich, #navibereich2 {
+    background-color:#27c3bc;
+    font-size:20px;
+    padding: 4px 10px;
+    border-top: 3px solid #000000;
+    border-bottom: 3px solid #000000;
+    margin: 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+}
+
+#navibereich a, #navibereich2 a {
+    padding: 4px 8px;
+}
+#navibereich a:hover, #navibereich2 a:hover {
+    background-color:#8d273d;
+    color:#000000;
+}
+/*--------------------Logo rechts oben----------------------------------------*/
+#logo {
+    float:right;
+    width:100px;
+    heigt:100px;
+    margin:10px;
+    border:2px solid #000000;
+}

@@ -3,32 +3,36 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Create a Walk</title>
+	<link rel="stylesheet" type = "text/css", href="style.css"/>
 </head>
 <body>
-
-<h1>Create a Photowalk</h1>
+<a href="/home" class="btn btn-primary"><img id="logo" src="Logo_Vers1.jpg"></a>
+<div align="center">
+<h1>Create a Photowalk with amble</h1>
 <form action="#" th:action="@{/createwalk}" th:object="${photowalkDto}" method="post">
 	<label>
-		Name:
+		Name:&nbsp &nbsp &nbsp &nbsp &nbsp
 		<input th:field="*{name}" type="text"/>
-	</label><br />
-	<!--<label>
-		Date:
+	</label><br /><br/>
+	<label>
+		Date:&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
 		<input th:field="*{date}" type="text"/>
-	</label><br />-->
+	</label><br /> <br/>
 	<label>
-		Start Point:
+		Start Point: &nbsp
 		<input th:field="*{startpoint}" type="text"/>
-		</label><br />
+		</label><br /><br/>
 	<label>
-		End Point:
+		End Point: &nbsp &nbsp
 		<input th:field="*{endpoint}" type="text"/>
-	</label><br />
+	</label><br /><br/>
 	<label>
 		Description:
 		<input th:field="*{description}" type="text"/>
 	</label><br />
-	<button type="submit" >Erstellen</button>
+	<br/>
+	<button type="submit" >Create</button>
 </form>
+</div>
 </body>
 </html>
