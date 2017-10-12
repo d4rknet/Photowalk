@@ -21,7 +21,7 @@ public class PhotowalkDto {
 	private Integer photowalkId;
 	private String name;
 	private Integer duration;
-	private Date date;
+	//private String datum;
 	private String description;
 	private String startpoint;
 	private String endpoint;

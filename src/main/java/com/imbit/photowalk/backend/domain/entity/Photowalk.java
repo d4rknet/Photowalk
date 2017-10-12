@@ -20,8 +20,8 @@ public class Photowalk {
 	@JsonView({PhotowalkDetailed.class, PhotowalkSummary.class})
 	private String name;
 
-	//@Column(nullable=false)
-	//  private Date date;
+	//@Column
+	//private String datum;
 
 	// @Column(nullable = false)
 	@JsonView({PhotowalkDetailed.class, PhotowalkSummary.class})

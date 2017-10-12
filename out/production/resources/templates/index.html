@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<title>amble</title>
+	<link rel="stylesheet" type = "text/css" href="/style.css"/>
+</head>
+<body id="index">
+<a href="/home" class="btn btn-primary"><img id="logo" src="Logo_Vers1.jpg"></a>
+<div align="center">
+<h1> Welcome to amble! </h1>
+</div>
+<div th:if="${username} == null">
+	<ul id="navibereich">
+		<div align="center">
+			<li id="login"><a href="/login">Go to Login /</a></li>
+			<li id="register" ><a href="/register">Not a member yet? Register here!</a></li>
+		</div>
+	</ul>
+</div>
+<div th:if="${username} != null" >
+	<p th:text="'Hello ' + ${username}"></p>
+	<ul id="navibereich2">
+		<div align="center">
+			<li id="walks"><a href="/walks">Walks /</a></li>
+			<li id="createWalk" ><a href="/createwalk">Create a Walk /</a></li>
+			<li id="users"><a href="/api/user">See active Users</a></li>
+		</div>
+	</ul>
+	<br/>
+	<div align="right">
+	<a href="/logout">Logout</a>
+	</div>
+</div>
+</body>
+</html>
