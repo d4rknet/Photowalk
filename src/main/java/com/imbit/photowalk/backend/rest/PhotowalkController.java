@@ -9,7 +9,6 @@ import com.imbit.photowalk.backend.rest.View.PhotowalkDetailed;
 import com.imbit.photowalk.backend.rest.View.PhotowalkSummary;
 import com.imbit.photowalk.backend.security.Authenticated;
 import com.imbit.photowalk.backend.security.AuthenticationService;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,7 +44,7 @@ public class PhotowalkController {
 
 	@Authenticated
 	@RequestMapping(method = POST)
-	public ResponseEntity addPhotowalk(@JsonView(PhotowalkSummary.class) @RequestBody Photowalk photowalk,) {
+	public ResponseEntity addPhotowalk(@JsonView(PhotowalkSummary.class) @RequestBody Photowalk photowalk) {
 		photowalk.setOwner(authenticationService.getCurrentUser());
 		photowalkRepository.save(photowalk);
 		return ResponseEntity.created(URI.create("/api/photowalks/" + photowalk.getName())).build();
