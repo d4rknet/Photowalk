@@ -10,8 +10,6 @@ import com.imbit.photowalk.backend.dto.PWCreateDto;
 import com.imbit.photowalk.backend.dto.PhotowalkDto;
 import com.imbit.photowalk.backend.dto.RegisterDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -62,9 +60,14 @@ public class ViewController {
 		return "success";
 	}
 
+//	@RequestMapping("/")
+//	public String index(Model model, Authentication authentication) {
+//		model.addAttribute("username", authentication == null ? null : authentication.getName());
+//		return "index";
+//	}
 	@RequestMapping("/")
-	public String index(Model model, Authentication authentication) {
-		model.addAttribute("username", authentication == null ? null : authentication.getName());
+	public String index(Model model, String username) {
+		model.addAttribute("username", username);
 		return "index";
 	}
 
@@ -115,19 +118,19 @@ public class ViewController {
 		return "detail";
 	}
 
-	@RequestMapping("walks/{id}/join")
-	public String joinWalk(@PathVariable String id) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = authentication.getName();
-		Optional<User> userOP = userRepository.findUserByUsername(username);
-		Optional<Photowalk> photowalkOptional = photowalkRepository.findById(Integer.parseInt(id));
-
-
-		//TODO handle no user/walk found
-
-		Photowalk photowalk = photowalkOptional.get();
-		photowalk.getApplicants().add(userOP.get());
-		photowalkRepository.save(photowalk);
-		return "redirect:/walks/" + id;
-	}
+//	@RequestMapping("walks/{id}/join")
+//	public String joinWalk(@PathVariable String id) {
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		String username = authentication.getName();
+//		Optional<User> userOP = userRepository.findUserByUsername(username);
+//		Optional<Photowalk> photowalkOptional = photowalkRepository.findById(Integer.parseInt(id));
+//
+//
+//		//TODO handle no user/walk found
+//
+//		Photowalk photowalk = photowalkOptional.get();
+//		photowalk.getApplicants().add(userOP.get());
+//		photowalkRepository.save(photowalk);
+//		return "redirect:/walks/" + id;
+//	}
 }

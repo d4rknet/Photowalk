@@ -5,12 +5,13 @@ import com.imbit.photowalk.backend.domain.entity.Photowalk;
 import com.imbit.photowalk.backend.domain.entity.User;
 import com.imbit.photowalk.backend.domain.repo.PhotowalkRepository;
 import com.imbit.photowalk.backend.domain.repo.UserRepository;
-import com.imbit.photowalk.backend.exception.UserNotFoundException;
 import com.imbit.photowalk.backend.rest.View.PhotowalkDetailed;
 import com.imbit.photowalk.backend.rest.View.PhotowalkSummary;
+import com.imbit.photowalk.backend.security.Authenticated;
+import com.imbit.photowalk.backend.security.AuthenticationService;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,19 +31,22 @@ public class PhotowalkController {
 
 	private final PhotowalkRepository photowalkRepository;
 	private final UserRepository userRepository;
+	private final AuthenticationService authenticationService;
+
 
 	@Autowired
 	public PhotowalkController(PhotowalkRepository photowalkRepository,
-							   UserRepository userRepository) {
+							   UserRepository userRepository,
+								AuthenticationService authenticationService) {
 		this.photowalkRepository = photowalkRepository;
 		this.userRepository = userRepository;
+		this.authenticationService = authenticationService;
 	}
 
+	@Authenticated
 	@RequestMapping(method = POST)
-	public ResponseEntity addPhotowalk(@JsonView(PhotowalkSummary.class) @RequestBody Photowalk photowalk,
-									   Authentication authentication) {
-		User user = getUser(authentication);
-		photowalk.setOwner(user);
+	public ResponseEntity addPhotowalk(@JsonView(PhotowalkSummary.class) @RequestBody Photowalk photowalk,) {
+		photowalk.setOwner(authenticationService.getCurrentUser());
 		photowalkRepository.save(photowalk);
 		return ResponseEntity.created(URI.create("/api/photowalks/" + photowalk.getName())).build();
 	}
@@ -65,18 +69,18 @@ public class PhotowalkController {
 		return getPhotowalkResponse(Photowalk::getApplicants, name);
 	}
 
-	@JsonView(PhotowalkDetailed.class)
-	@RequestMapping(path = "/{name}/applicants",method = POST)
-	public ResponseEntity addApplicant(@PathVariable String name, Authentication authentication){
-		Optional<Photowalk> photowalk = photowalkRepository.findPhotowalkByName(name);
-
-		User user = getUser(authentication);
-		photowalk.get().getApplicants().add(user);
-
-
-		return ResponseEntity.ok().build();
-
-	}
+//	@JsonView(PhotowalkDetailed.class)
+//	@RequestMapping(path = "/{name}/applicants",method = POST)
+//	public ResponseEntity addApplicant(@PathVariable String name, Authentication authentication){
+//		Optional<Photowalk> photowalk = photowalkRepository.findPhotowalkByName(name);
+//
+//		User user = getCurrentUser(authentication);
+//		photowalk.get().getApplicants().add(user);
+//
+//
+//		return ResponseEntity.ok().build();
+//
+//	}
 
 	@JsonView(PhotowalkDetailed.class)
 	@RequestMapping(path = "/{name}/participants",method = GET)
@@ -84,21 +88,21 @@ public class PhotowalkController {
 		return getPhotowalkResponse(Photowalk::getParticipants, name);
 	}
 
-	@JsonView(PhotowalkDetailed.class)
-	@RequestMapping(path = "/{name}/participants",method = POST)
-	public ResponseEntity addParticipants(@PathVariable String name, Authentication authentication){
-		Optional<Photowalk> photowalk = photowalkRepository.findPhotowalkByName(name);
+//	@JsonView(PhotowalkDetailed.class)
+//	@RequestMapping(path = "/{name}/participants",method = POST)
+//	public ResponseEntity addParticipants(@PathVariable String name, Authentication authentication){
+//		Optional<Photowalk> photowalk = photowalkRepository.findPhotowalkByName(name);
+//
+//		User user = getCurrentUser(authentication);
+//		photowalk.get().getApplicants().add(user);
+//
+//		return ResponseEntity.ok().build();
+//	}
 
-		User user = getUser(authentication);
-		photowalk.get().getApplicants().add(user);
-
-		return ResponseEntity.ok().build();
-	}
-
-	private User getUser(Authentication authentication) {
-		String username = authentication.getName();
-		return userRepository.findUserByUsername(username).orElseThrow(()-> new UserNotFoundException(username));
-	}
+//	private User getCurrentUser(Authentication authentication) {
+//		String username = authentication.getName();
+//		return userRepository.findUserByUsername(username).orElseThrow(()-> new UserNotFoundException(username));
+//	}
 
 	private<T> ResponseEntity<T> getPhotowalkResponse(Function<Photowalk, T> extract, String name){
 		Optional<Photowalk> photowalk = photowalkRepository.findPhotowalkByName(name);

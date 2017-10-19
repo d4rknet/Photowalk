@@ -5,6 +5,7 @@ import com.imbit.photowalk.backend.domain.entity.User;
 import com.imbit.photowalk.backend.domain.repo.UserRepository;
 import com.imbit.photowalk.backend.dto.UserDto;
 import com.imbit.photowalk.backend.rest.View.UserDetailed;
+import com.imbit.photowalk.backend.security.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
 @RequestMapping("/api/users")
@@ -27,7 +27,7 @@ public class UserController {
 		this.userRepository = userRepository;
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
+	@PostMapping
 	public ResponseEntity addUser(@RequestBody UserDto userDto){
 		User user = new User();
 		user.setFirstname(userDto.getFirstname());
@@ -39,14 +39,15 @@ public class UserController {
 		return ResponseEntity.created(URI.create("/api/user/"+userDto.getUsername())).build();
 	}
 
-	@RequestMapping(method = GET)
+	@Authenticated
+	@GetMapping
 	public List<UserDto> getUsers(){
 		return userRepository.findAll().stream().map(user -> UserDto.builder().username(user.getUsername()).build())
 				.collect(toList());
 	}
 
 	@JsonView(UserDetailed.class)
-	@RequestMapping(path = "/{username}", method = GET)
+	@GetMapping("/{username}")
 	public ResponseEntity<User> getUser(@PathVariable String username){
 		Optional<User> user = userRepository.findUserByUsername(username);
 		if (!user.isPresent()){
@@ -54,5 +55,11 @@ public class UserController {
 		}else{
 			return ResponseEntity.ok(user.get());
 		}
+	}
+
+	@GetMapping("/name")
+	public String getName(String username){
+		System.out.println("Hello from getName() method");
+		return username;
 	}
 }

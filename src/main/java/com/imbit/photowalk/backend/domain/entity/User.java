@@ -36,13 +36,9 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 
-
 	@Column(nullable = false )
 	private Boolean enabled = TRUE;
 
-/*	@Column(nullable = false)
-	private String salt;
-*/
 	@JsonView({UserDetailed.class, PhotowalkDetailed.class})
 	@ManyToOne
 	private Role role;
