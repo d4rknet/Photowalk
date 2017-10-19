@@ -6,6 +6,7 @@ import com.imbit.photowalk.backend.domain.repo.UserRepository;
 import com.imbit.photowalk.backend.dto.UserDto;
 import com.imbit.photowalk.backend.rest.View.UserDetailed;
 import com.imbit.photowalk.backend.security.Authenticated;
+import com.imbit.photowalk.backend.security.HashingProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,11 +22,14 @@ import static java.util.stream.Collectors.toList;
 public class UserController {
 
 	private final UserRepository userRepository;
+	private final HashingProvider hashingProvider;
 
 	@Autowired
-	public UserController(UserRepository userRepository) {
+	public UserController(UserRepository userRepository, HashingProvider hashingProvider) {
 		this.userRepository = userRepository;
+		this.hashingProvider = hashingProvider;
 	}
+
 
 	@PostMapping
 	public ResponseEntity addUser(@RequestBody UserDto userDto){
@@ -34,7 +38,7 @@ public class UserController {
 		user.setLastname(userDto.getLastname());
 		user.setUsername(userDto.getUsername());
 		user.setEmailaddress(userDto.getEmailaddress());
-		user.setPassword(userDto.getPassword());
+		user.setPassword(hashingProvider.hashPassword(userDto.getPassword()));
 		userRepository.save(user);
 		return ResponseEntity.created(URI.create("/api/user/"+userDto.getUsername())).build();
 	}

@@ -9,6 +9,7 @@ import com.imbit.photowalk.backend.domain.repo.UserRepository;
 import com.imbit.photowalk.backend.dto.PWCreateDto;
 import com.imbit.photowalk.backend.dto.PhotowalkDto;
 import com.imbit.photowalk.backend.dto.RegisterDto;
+import com.imbit.photowalk.backend.security.HashingProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,15 +26,18 @@ public class ViewController {
 	private final UserRepository userRepository;
 	private final PhotowalkRepository photowalkRepository;
 	private final RoleRepository roleRepository;
+	private final HashingProvider hashingProvider;
 
 
 	@Autowired
 	public ViewController(UserRepository userRepository,
 						  PhotowalkRepository photowalkRepository,
-						  RoleRepository roleRepository) {
+						  RoleRepository roleRepository,
+						  HashingProvider hashingProvider) {
 		this.userRepository = userRepository;
 		this.photowalkRepository = photowalkRepository;
 		this.roleRepository = roleRepository;
+		this.hashingProvider = hashingProvider;
 	}
 
 	@RequestMapping("/register")
@@ -49,7 +53,7 @@ public class ViewController {
 		user.setLastname(dto.getLastname());
 		user.setEmailaddress(dto.getEmailaddress());
 		user.setUsername(dto.getUsername());
-		user.setPassword(dto.getPassword());
+		user.setPassword(hashingProvider.hashPassword(dto.getPassword()));
 		userRepository.save(user);
 
 		Role role = Role.builder()
