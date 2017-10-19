@@ -3,30 +3,35 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Register</title>
+	<link rel="stylesheet" type = "text/css"href="/style.css"/>
 </head>
 <body>
-<h1>Register here</h1>
+<a href="/" class="btn btn-primary"><img id="logo" src="Logo_Vers1.jpg"></a>
+<div align="center"><h1>Join the amble community</h1>
+<p>Register here:</p>
 <form action="#" th:action="@{/register}" th:object="${dto}" method="post">
 	<label>
-		Username:
+		Username:&nbsp &nbsp &nbsp &nbsp &nbsp
 		<input th:field="*{username}" type="text"/>
 	</label><br />
 	<label>
-		Firstname:
+		Firstname:&nbsp &nbsp &nbsp &nbsp &nbsp
 		<input th:field="*{firstname}" type="text"/>
 	</label><br />
 	<label>
-		Lastname:
+		Lastname:&nbsp &nbsp &nbsp &nbsp &nbsp
 		<input th:field="*{lastname}" type="text"/>
 		</label><br />
 	<label>
-		E-Mail Adresse:
+		E-Mail Address:
 		<input th:field="*{emailaddress}" type="text"/>
 	</label><br />
-		Password:
+		Password:&nbsp &nbsp &nbsp &nbsp &nbsp
 		<input th:field="*{password}" type="password"/>
-	</label><br />
+	</label><br /> <br/>
 	<button type="submit" >Register</button>
+
 </form>
+</div>
 </body>
 </html>

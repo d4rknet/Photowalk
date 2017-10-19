@@ -25,15 +25,16 @@ public class User {
 	@Column(nullable = false)
 	private String firstname;
 
-	//@Column(nullable = false)
+	@Column(nullable = false)
 	@JsonView({UserDetailed.class, PhotowalkDetailed.class})
 	private String lastname;
 
-	//@Column(nullable = false)
+	@Column(nullable = false)
 	@JsonView(UserDetailed.class)
 	private String emailaddress;
 
 	@Column(nullable = false)
+	@JsonView(UserDetailed.class)
 	private String password;
 
 	@Column(nullable = false )

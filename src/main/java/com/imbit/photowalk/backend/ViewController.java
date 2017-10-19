@@ -102,7 +102,7 @@ public class ViewController {
 	public String phot(@ModelAttribute PhotowalkDto photowalkDto, Model model) {
 		Photowalk photowalk = new Photowalk();
 		photowalk.setName(photowalkDto.getName());
-		//	photowalk.setDate(photowalkDto.getDate());
+		//photowalk.setDatum(photowalkDto.getDatum());
 		photowalk.setDescription(photowalkDto.getDescription());
 		photowalk.setStartpoint(photowalkDto.getStartpoint());
 		photowalk.setEndpoint(photowalkDto.getEndpoint());
