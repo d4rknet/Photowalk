@@ -7,11 +7,11 @@
 
 	<title>Photowalks</title>
 
-	<link rel="stylesheet" type = "text/css" href="/style.css"/>
+	<link rel="stylesheet" type = "text/css" href="/static/style.css"/>
 
 </head>
 <body>
-<a href="/" class="btn btn-primary"><img id="logo" src="Logo_Vers1.jpg"></a>
+<a href="/" class="btn btn-primary"><img id="logo" src="/static/Logo_Vers1.jpg"></a>
 <div align="center"><h1>amble - Upcoming Walks</h1></div>
 	<div th:each="photowalk : ${photowalks}">
 		<a th:href="${'walks/' + photowalk.photowalkId}" th:text="${photowalk.name}">Walks by Name</a>
