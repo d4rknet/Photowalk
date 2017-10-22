@@ -20,7 +20,7 @@ public class PhotowalkBackendApplication {
 
 	@Bean
 	public Docket generateDocumentation(){
-		return new Docket(DocumentationType.SWAGGER_2).select().apis(basePackage("com.imbit.photowalk.backend.rest"))
+		return new Docket(DocumentationType.SWAGGER_2).select().apis(basePackage("com.imbit.photowalk.backend.controller.rest"))
 				.build();
 	}
 }

@@ -1,4 +1,4 @@
-package com.imbit.photowalk.backend.rest;
+package com.imbit.photowalk.backend.controller.rest;
 
 public class View {
 	public interface UserDetailed {}

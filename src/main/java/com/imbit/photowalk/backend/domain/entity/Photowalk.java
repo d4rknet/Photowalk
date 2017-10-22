@@ -1,8 +1,8 @@
 package com.imbit.photowalk.backend.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.imbit.photowalk.backend.rest.View.PhotowalkDetailed;
-import com.imbit.photowalk.backend.rest.View.PhotowalkSummary;
+import com.imbit.photowalk.backend.controller.rest.View.PhotowalkDetailed;
+import com.imbit.photowalk.backend.controller.rest.View.PhotowalkSummary;
 import lombok.Data;
 
 import javax.persistence.*;

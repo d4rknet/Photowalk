@@ -1,10 +1,10 @@
-package com.imbit.photowalk.backend.rest;
+package com.imbit.photowalk.backend.controller.rest;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.imbit.photowalk.backend.domain.entity.User;
 import com.imbit.photowalk.backend.domain.repo.UserRepository;
 import com.imbit.photowalk.backend.dto.UserDto;
-import com.imbit.photowalk.backend.rest.View.UserDetailed;
+import com.imbit.photowalk.backend.controller.rest.View.UserDetailed;
 import com.imbit.photowalk.backend.security.Authenticated;
 import com.imbit.photowalk.backend.security.HashingProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +50,7 @@ public class UserController {
 				.collect(toList());
 	}
 
+	@Authenticated
 	@JsonView(UserDetailed.class)
 	@GetMapping("/{username}")
 	public ResponseEntity<User> getUser(@PathVariable String username){
@@ -59,11 +60,5 @@ public class UserController {
 		}else{
 			return ResponseEntity.ok(user.get());
 		}
-	}
-
-	@GetMapping("/name")
-	public String getName(String username){
-		System.out.println("Hello from getName() method");
-		return username;
 	}
 }

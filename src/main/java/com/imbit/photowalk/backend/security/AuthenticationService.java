@@ -35,6 +35,14 @@ public class AuthenticationService {
 		sessions = new HashMap<>();
 	}
 
+	/**
+	 * Logs the user in with the supplied credentials and returns the session id
+	 * @param username username
+	 * @param password clear password
+	 * @return session id
+	 *
+	 * @throws BadCredentialsException when the credentials are incorrect
+	 */
 	public String login(String username, String password) {
 		User user = userRepository.findUserByUsername(username).orElseThrow(BadCredentialsException::new);
 		if (!hashingProvider.checkPassword(user.getPassword(), password)) {

@@ -1,6 +1,8 @@
-package com.imbit.photowalk.backend.rest;
+package com.imbit.photowalk.backend.controller.rest;
 
+import com.imbit.photowalk.backend.domain.entity.User;
 import com.imbit.photowalk.backend.dto.CredentialDto;
+import com.imbit.photowalk.backend.security.Authenticated;
 import com.imbit.photowalk.backend.security.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -25,5 +27,10 @@ public class SessionController {
 		authenticationService.logout(session);
 	}
 
+	@Authenticated
+	@GetMapping
+	public User getUserForSession(){
+		return authenticationService.getCurrentUser();
+	}
 
 }

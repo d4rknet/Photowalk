@@ -1,4 +1,4 @@
-package com.imbit.photowalk.backend;
+package com.imbit.photowalk.backend.controller.view;
 
 import com.imbit.photowalk.backend.domain.entity.Photowalk;
 import com.imbit.photowalk.backend.domain.entity.Role;
@@ -9,16 +9,18 @@ import com.imbit.photowalk.backend.domain.repo.UserRepository;
 import com.imbit.photowalk.backend.dto.PWCreateDto;
 import com.imbit.photowalk.backend.dto.PhotowalkDto;
 import com.imbit.photowalk.backend.dto.RegisterDto;
+import com.imbit.photowalk.backend.security.Authenticated;
+import com.imbit.photowalk.backend.security.AuthenticationService;
 import com.imbit.photowalk.backend.security.HashingProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Objects;
 import java.util.Optional;
-
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
 public class ViewController {
@@ -27,17 +29,20 @@ public class ViewController {
 	private final PhotowalkRepository photowalkRepository;
 	private final RoleRepository roleRepository;
 	private final HashingProvider hashingProvider;
+	private final AuthenticationService authenticationService;
 
 
 	@Autowired
 	public ViewController(UserRepository userRepository,
 						  PhotowalkRepository photowalkRepository,
 						  RoleRepository roleRepository,
-						  HashingProvider hashingProvider) {
+						  HashingProvider hashingProvider,
+	AuthenticationService authenticationService) {
 		this.userRepository = userRepository;
 		this.photowalkRepository = photowalkRepository;
 		this.roleRepository = roleRepository;
 		this.hashingProvider = hashingProvider;
+		this.authenticationService = authenticationService;
 	}
 
 	@RequestMapping("/register")
@@ -64,32 +69,13 @@ public class ViewController {
 		return "success";
 	}
 
-//	@RequestMapping("/")
-//	public String index(Model model, Authentication authentication) {
-//		model.addAttribute("username", authentication == null ? null : authentication.getName());
-//		return "index";
-//	}
 	@RequestMapping("/")
-	public String index(Model model, String username) {
-		model.addAttribute("username", username);
+	public String index(Model model) {
+		model.addAttribute("username", authenticationService.getCurrentUser()== null ? null : authenticationService.getCurrentUser().getUsername());
 		return "index";
 	}
 
-	@RequestMapping("/login")
-	public String login(Model model) {
-		return "login";
-	}
-
-	@RequestMapping(value = "/login", method = POST)
-	public String login(@RequestParam String username, @RequestParam String password, Model model) {
-		Optional<User> userOpt = userRepository.findUserByUsername(username);
-		if (!userOpt.isPresent() || !Objects.equals(userOpt.get().getPassword(), password)) {
-			throw new RuntimeException("password or username does not match");
-		}
-		model.addAttribute("user", userOpt.get());
-		return "loggedIn";
-	}
-
+	@Authenticated
 	@RequestMapping("/walks")
 	public String showPhotowalks(Model model) {
 		model.addAttribute("photowalks", photowalkRepository.findAll());
@@ -122,19 +108,18 @@ public class ViewController {
 		return "detail";
 	}
 
-//	@RequestMapping("walks/{id}/join")
-//	public String joinWalk(@PathVariable String id) {
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		String username = authentication.getName();
-//		Optional<User> userOP = userRepository.findUserByUsername(username);
-//		Optional<Photowalk> photowalkOptional = photowalkRepository.findById(Integer.parseInt(id));
-//
-//
-//		//TODO handle no user/walk found
-//
-//		Photowalk photowalk = photowalkOptional.get();
-//		photowalk.getApplicants().add(userOP.get());
-//		photowalkRepository.save(photowalk);
-//		return "redirect:/walks/" + id;
-//	}
+	@Authenticated
+	@RequestMapping("walks/{id}/join")
+	public String joinWalk(@PathVariable String id) {
+		String username = authenticationService.getCurrentUser().getUsername();
+		Optional<User> userOP = userRepository.findUserByUsername(username);
+		Optional<Photowalk> photowalkOptional = photowalkRepository.findById(Integer.parseInt(id));
+
+		//TODO handle no user/walk found
+
+		Photowalk photowalk = photowalkOptional.get();
+		photowalk.getApplicants().add(userOP.get());
+		photowalkRepository.save(photowalk);
+		return "redirect:/walks/" + id;
+	}
 }

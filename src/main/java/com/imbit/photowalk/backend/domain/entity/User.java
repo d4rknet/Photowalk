@@ -1,8 +1,8 @@
 package com.imbit.photowalk.backend.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.imbit.photowalk.backend.rest.View.PhotowalkDetailed;
-import com.imbit.photowalk.backend.rest.View.UserDetailed;
+import com.imbit.photowalk.backend.controller.rest.View.PhotowalkDetailed;
+import com.imbit.photowalk.backend.controller.rest.View.UserDetailed;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -34,7 +34,6 @@ public class User {
 	private String emailaddress;
 
 	@Column(nullable = false)
-	@JsonView(UserDetailed.class)
 	private String password;
 
 	@Column(nullable = false )
