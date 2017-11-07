@@ -2,6 +2,7 @@ package com.imbit.photowalk.backend.controller.rest;
 
 import com.imbit.photowalk.backend.domain.entity.User;
 import com.imbit.photowalk.backend.dto.CredentialDto;
+import com.imbit.photowalk.backend.dto.SessionDto;
 import com.imbit.photowalk.backend.security.Authenticated;
 import com.imbit.photowalk.backend.security.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,10 @@ public class SessionController {
 	private AuthenticationService authenticationService;
 
 	@PostMapping
-	public HttpEntity<String> createSession(@RequestBody CredentialDto credentials){
+	public HttpEntity<SessionDto> createSession(@RequestBody CredentialDto credentials){
+		String token = authenticationService.login(credentials.getUsername(), credentials.getPassword());
 		return ResponseEntity
-				.ok(authenticationService.login(credentials.getUsername(), credentials.getPassword()));
+				.ok(new SessionDto(token));
 	}
 
 	@DeleteMapping("/{session}")
