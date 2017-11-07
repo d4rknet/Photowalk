@@ -25,6 +25,6 @@ public class PhotowalkDto {
 	private String description;
 	private String startpoint;
 	private String endpoint;
-	private Route route;
+	//private Route route;
 	private User owner;
 }
